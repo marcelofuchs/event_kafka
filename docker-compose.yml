@@ -28,6 +28,7 @@ services:
       - ./data/kafka1/data:/var/lib/kafka/data
     depends_on:
       - zookeeper
+      - mongo
   kafdrop:
     image: obsidiandynamics/kafdrop
     restart: "no"
@@ -37,6 +38,26 @@ services:
       KAFKA_BROKERCONNECT: "kafka1:19091"
     depends_on:
       - kafka1
+
+  mongo:
+    image: mongo
+    hostname: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
 
 #Sobre o Zookeeper: https://dattell.com/data-architecture-blog/what-is-zookeeper-how-does-it-support-kafka/
 #Detalhes das variáveis de ambiente:
