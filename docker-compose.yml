@@ -33,7 +33,7 @@ services:
     image: obsidiandynamics/kafdrop
     restart: "no"
     ports:
-      - "9000:9000"
+      - "9092:9000"
     environment:
       KAFKA_BROKERCONNECT: "kafka1:19091"
     depends_on:
